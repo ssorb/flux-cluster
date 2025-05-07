@@ -1,0 +1,3 @@
+meshProvider: istio
+prometheus:
+  install: true

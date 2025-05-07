@@ -1,0 +1,30 @@
+apiVersion: flagger.app/v1beta1
+kind: Canary
+metadata:
+  name: podinfo
+  namespace: test
+spec:
+  provider: istio
+  targetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: podinfo
+  service:
+    port: 9898
+    gateways:
+      - istio-system/istio-ingressgateway
+    hosts:
+      - "*"
+  analysis:
+    interval: 1m
+    threshold: 5
+    maxWeight: 50
+    stepWeight: 5
+    metrics:
+      - name: request-success-rate
+        threshold: 99
+        interval: 1m
+      - name: request-duration
+        threshold: 500
+        interval: 1m
+
